@@ -8,7 +8,8 @@
       "desc": "Launcher Kairo: splash, PIN offline e schede gioco 3D.",
       "versions": [
         { "v": "1.0", "code": 1, "url": "apks/kairo-home-1.0.apk", "notes": "Prima release" },
-        { "v": "1.1", "code": 2, "url": "apks/kairo-home-1.1.apk", "notes": "Scarica e installa i giochi dal service" }
+        { "v": "1.1", "code": 2, "url": "apks/kairo-home-1.1.apk", "notes": "Scarica e installa i giochi dal service" },
+        { "v": "1.2", "code": 3, "url": "apks/kairo-home-1.2.apk", "notes": "Download via GitHub Pages" }
       ]
     },
     {

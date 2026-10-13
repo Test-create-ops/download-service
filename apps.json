@@ -1,0 +1,35 @@
+{
+  "apps": [
+    {
+      "id": "kairo-home",
+      "name": "Kairo Home",
+      "pkg": "it.kairodev.home",
+      "icon": "🎛️",
+      "desc": "Launcher Kairo: splash, PIN offline e schede gioco 3D.",
+      "versions": [
+        { "v": "1.0", "code": 1, "url": "apks/kairo-home-1.0.apk", "notes": "Prima release" },
+        { "v": "1.1", "code": 2, "url": "apks/kairo-home-1.1.apk", "notes": "Scarica e installa i giochi dal service" }
+      ]
+    },
+    {
+      "id": "starnotes",
+      "name": "StarNotes",
+      "pkg": "it.kairodev.starnotes",
+      "icon": "✨",
+      "desc": "Le tue note sono stelle: rileggile e brillano di più.",
+      "versions": [
+        { "v": "1.0", "code": 1, "url": "apks/starnotes-1.0.apk", "notes": "Prima release" }
+      ]
+    },
+    {
+      "id": "cosmic-delivery",
+      "name": "Cosmic Delivery",
+      "pkg": "it.kairodev.cosmicdelivery",
+      "icon": "📦",
+      "desc": "Guida PACCO, il pacco posseduto, fino a casa. Obby spaziale.",
+      "versions": [
+        { "v": "1.0", "code": 1, "url": "apks/cosmic-delivery-1.0.apk", "notes": "Demo con touch controls" }
+      ]
+    }
+  ]
+}

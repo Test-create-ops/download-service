@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Download Service — kairodev.it</title>
+<style>
+  :root { --bg:#05070F; --card:#0B1030; --cyan:#35E0FF; --txt:#E8EEFF; --dim:#9FB3D9; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--txt);
+    font-family: system-ui, -apple-system, sans-serif; min-height:100vh; }
+  header { padding:28px 20px 8px; text-align:center; }
+  header h1 { margin:0; font-size:28px; letter-spacing:2px; color:var(--cyan); }
+  header p { color:var(--dim); font-size:14px; }
+  main { max-width:720px; margin:0 auto; padding:12px 16px 60px;
+    display:flex; flex-direction:column; gap:14px; }
+  .card { background:var(--card); border:1px solid #1b2450; border-radius:16px;
+    padding:16px; display:flex; gap:14px; align-items:center; }
+  .icon { font-size:38px; }
+  .info { flex:1; }
+  .info h2 { margin:0 0 4px; font-size:19px; }
+  .info p { margin:0 0 8px; color:var(--dim); font-size:13px; }
+  .ver { font-size:12px; color:var(--dim); }
+  .dl { background:var(--cyan); color:#05070F; border:0; border-radius:12px;
+    padding:12px 18px; font-weight:700; font-size:15px; cursor:pointer;
+    text-decoration:none; white-space:nowrap; }
+  #single { text-align:center; padding-top:40px; }
+  #single .dl { display:inline-block; margin-top:16px; }
+  code { color:var(--cyan); font-size:12px; word-break:break-all; }
+</style>
+</head>
+<body>
+<header>
+  <h1>DOWNLOAD SERVICE</h1>
+  <p>downloadservice.kairodev.it · APK diretti, niente store</p>
+</header>
+<main id="app"></main>
+<script>
+async function main() {
+  const q = new URLSearchParams(location.search);
+  const manifest = await (await fetch('apps.json')).json();
+  const byId = Object.fromEntries(manifest.apps.map(a => [a.id, a]));
+  const host = document.getElementById('app');
+
+  function pick(app, ver) {
+    if (!ver || ver === 'latest') return app.versions[app.versions.length - 1];
+    return app.versions.find(v => v.v === ver || String(v.code) === ver) || null;
+  }
+
+  // Modalità download diretto: ?app=<id>&version=<latest|1.0>
+  if (q.has('app')) {
+    const app = byId[q.get('app')];
+    if (!app) { host.innerHTML = '<p>App non trovata.</p>'; return; }
+    const v = pick(app, q.get('version'));
+    if (!v) { host.innerHTML = '<p>Versione non trovata.</p>'; return; }
+    host.innerHTML = `<div id="single">
+      <div style="font-size:52px">${app.icon}</div>
+      <h2>${app.name} ${v.v}</h2>
+      <p style="color:var(--dim)">${v.notes || ''}</p>
+      <a class="dl" href="${v.url}">SCARICA APK</a>
+      <p><code>${location.origin}${location.pathname}?app=${app.id}&amp;version=latest</code></p>
+    </div>`;
+    // auto-start dopo 1s (l'utente resta sulla pagina per il tap di conferma)
+    setTimeout(() => { const a = host.querySelector('a.dl'); a && a.click(); }, 1000);
+    return;
+  }
+
+  // Catalogo
+  host.innerHTML = manifest.apps.map(a => {
+    const v = pick(a, 'latest');
+    const link = `?app=${a.id}&version=latest`;
+    return `<div class="card">
+      <div class="icon">${a.icon}</div>
+      <div class="info"><h2>${a.name}</h2><p>${a.desc}</p>
+      <span class="ver">v${v.v} · <code>${link}</code></span></div>
+      <a class="dl" href="${link}">SCARICA</a>
+    </div>`;
+  }).join('');
+}
+main();
+</script>
+</body>
+</html>
